@@ -5,7 +5,7 @@ import fileupload from 'express-fileupload';
 import morgan from 'morgan';
 import graphqlHTTP from 'express-graphql';
 import schema from './schema';
-const app = express();
+var app = express();
 app.use(morgan('dev'));
 
 //MIDDLEWARES
@@ -16,23 +16,21 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(fileupload())
     //CORS
 app.use(cors());
-
+app.get('/', (req, res) => {
+    return res.status(200).send({
+        mensaje: "Hola Mundo"
+    });
+});
 const root = {
     hola: () => {
-        return "Hola mundo desde GraphQL";
+        return "Hola mundo desde GraphQL"
     }
 }
-
-
-app.get('/', (req, res) => {
-    res.send('Todo Listo');
-});
-
-
-
-app.get('/graphql', graphqlHTTP({
-    schema: schema,
+app.use('/graphql', graphqlHTTP({
+    schema,
     //El resolve se pasa cmo rootvalue
     rootValue: root,
     graphiql: true,
 }));
+
+module.exports = app;
