@@ -1,8 +1,9 @@
-import express from 'express'
-const app = express();
-app.get("/", (req, res) => {
-    res.send("Todo listo");
-})
-app.listen(8000, () => {
-    console.log("El servidor esta funcionando");
-})
+import app from './app';
+var server = require('http').Server(app);
+//server.Server(app);
+var port = 8579;
+//var db = require('./models');
+server.listen(port, function() {
+    //sequelize.sync()
+    console.log('Servidor corriendo en http://localhost:' + port);
+});
