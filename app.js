@@ -17,15 +17,17 @@ app.use(fileupload())
     //CORS
 app.use(cors());
 
-app.get('/', (req, res) => {
-    res.send('Todo Listo');
-});
-
 const root = {
     hola: () => {
         return "Hola mundo desde GraphQL";
     }
 }
+
+
+app.get('/', (req, res) => {
+    res.send('Todo Listo');
+});
+
 
 
 app.get('/graphql', graphqlHTTP({
