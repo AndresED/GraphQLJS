@@ -27,6 +27,7 @@
     """ función permite obtener la lista de clientes"""
     type Query{
         getCliente(id:ID):Cliente
+        getClientes: [Cliente]
     }
     """ Input que estructura los valores permitidos para el registro de un pedido"""
     input PedidoInput{
@@ -57,4 +58,5 @@
         """ Funcion que nos permite crear un nuevo cliente """
         crearCliente(input:ClienteInput):Cliente
         actualizarCliente(input:ClienteInput):Cliente
+        eliminarCliente(id:ID!):String
     }

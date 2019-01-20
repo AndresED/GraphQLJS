@@ -4,6 +4,9 @@ export const resolvers = {
         getCliente: ({ id }) => {
             return new Cliente(id, clientesDB[id]);
         },
+        getClientes: () => {
+            return Clientes.find()
+        }
     },
     Mutation: {
         crearCliente: (root, { input }) => {
@@ -38,6 +41,21 @@ export const resolvers = {
                         }
                     })
             })
-        }
+        },
+        eliminarCliente: (root, { id }) => {
+            return new Promise((resolve, reject) => {
+                Clientes.findOneAndRemove({ _id: id },
+                    error => {
+                        if (error) {
+                            reject(error)
+                        } else {
+                            resolve("sucess")
+                        }
+
+                    }
+                )
+            })
+        },
+
     }
 }
