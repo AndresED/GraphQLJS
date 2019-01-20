@@ -5,6 +5,7 @@ import fileupload from 'express-fileupload';
 import morgan from 'morgan';
 import graphqlHTTP from 'express-graphql';
 import schema from './schema';
+import resolvers from './resolvers'
 var app = express();
 app.use(morgan('dev'));
 
@@ -21,11 +22,8 @@ app.get('/', (req, res) => {
         mensaje: "Hola Mundo"
     });
 });
-const root = {
-    hola: () => {
-        return "Hola mundo desde GraphQL"
-    }
-}
+
+const root = resolvers;
 app.use('/graphql', graphqlHTTP({
     schema,
     //El resolve se pasa cmo rootvalue
