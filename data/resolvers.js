@@ -1,11 +1,19 @@
 import { Clientes } from './db';
 export const resolvers = {
     Query: {
-        getCliente: ({ id }) => {
-            return new Cliente(id, clientesDB[id]);
+        getCliente: (root, { id }) => {
+            return new Promise((resolve, reject) => {
+                Clientes.findById(id, (error, cliente) => {
+                    if (error) {
+                        reject(error)
+                    } else {
+                        resolve(cliente)
+                    }
+                })
+            })
         },
-        getClientes: () => {
-            return Clientes.find()
+        getClientes: (root, { limit }) => {
+            return Clientes.find().limit(limit)
         }
     },
     Mutation: {
