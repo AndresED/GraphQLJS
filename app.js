@@ -4,8 +4,7 @@ import cors from 'cors';
 import fileupload from 'express-fileupload';
 import morgan from 'morgan';
 import graphqlHTTP from 'express-graphql';
-import schema from './schema';
-import resolvers from './resolvers'
+import { schema } from './data/schema';
 var app = express();
 app.use(morgan('dev'));
 
@@ -22,12 +21,8 @@ app.get('/', (req, res) => {
         mensaje: "Hola Mundo"
     });
 });
-
-const root = resolvers;
 app.use('/graphql', graphqlHTTP({
     schema,
-    //El resolve se pasa cmo rootvalue
-    rootValue: root,
     graphiql: true,
 }));
 

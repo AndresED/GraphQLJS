@@ -1,6 +1,4 @@
-import { buildSchema } from 'graphql';
-const schema = buildSchema(`
-    """ Estructura para nuestro objeto Cliente"""
+ """ Estructura para nuestro objeto Cliente"""
     type Cliente{
         id:ID
         nombre:String,
@@ -41,6 +39,7 @@ const schema = buildSchema(`
     }
     """ Input que estructura los valores permitidos para el registro de un cliente"""
     input ClienteInput{
+        id:ID
         nombre:String!
         apellido:String!
         empresa:String!
@@ -57,6 +56,5 @@ const schema = buildSchema(`
         # el valore de retorno es un objeto del tipo cliente
         """ Funcion que nos permite crear un nuevo cliente """
         crearCliente(input:ClienteInput):Cliente
+        actualizarCliente(input:ClienteInput):Cliente
     }
-`);
-export default schema;
