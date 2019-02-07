@@ -9,5 +9,12 @@ const clientesSchema = Schema({
     edad: Number,
     pedidos: Array
 })
+
+
+const usuariosSchema = Schema({
+    usuario: String,
+    password: String
+});
+const Usuarios = mongoose.model("usuarios", usuariosSchema);
 const Clientes = mongoose.model("clientes", clientesSchema);
-export { Clientes };
+export { Clientes, Usuarios };

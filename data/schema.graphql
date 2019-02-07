@@ -29,6 +29,9 @@
         getCliente(id:ID):Cliente
         getClientes(limit:Int): [Cliente]
     }
+    type Token{
+        token:String
+    }
     """ Input que estructura los valores permitidos para el registro de un pedido"""
     input PedidoInput{
         producto:String,
@@ -59,4 +62,6 @@
         crearCliente(input:ClienteInput):Cliente
         actualizarCliente(input:ClienteInput):Cliente
         eliminarCliente(id:ID!):String
+        crearUsuario(usuario:String!,password:String!):String
+        login(usuario:String!,password:String!):Token
     }

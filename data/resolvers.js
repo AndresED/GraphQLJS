@@ -1,4 +1,6 @@
-import { Clientes } from './db';
+import { Clientes, Usuarios } from './db';
+import bcrypt from 'bcrypt-nodejs';
+import jwt from '../services/jwt';
 export const resolvers = {
     Query: {
         getCliente: (root, { id }) => {
@@ -64,6 +66,49 @@ export const resolvers = {
                 )
             })
         },
+        crearUsuario: async(root, { usuario, password }) => {
 
+            //VERIFICAR SI UN USUARIO CONTIENE ESTE PASSWORD
+            const existeUsuario = await Usuarios.findOne({ usuario: usuario });
+            if (existeUsuario) {
+                throw new Error("El usuario ya existe")
+            }
+            const nuevoUsuario = await new Usuarios({
+                "usuario": usuario,
+                "password": bcrypt.hashSync(password),
+            }).save();
+
+            console.log(nuevoUsuario);
+            return "Creado correctamente";
+        },
+        login: async(root, { usuario, password }, context, info) => {
+            console.log(context);
+            return new Promise(
+                async(resolve, reject) => {
+                    const existeUsuario = await Usuarios.findOne({ usuario: usuario });
+                    if (!existeUsuario) {
+                        reject("No tenemos a un usuario registrado con las credenciales ingresadas")
+                    }
+                    try {
+                        bcrypt.compare(password, existeUsuario.password, async(err, check) => {
+                            //SI TODO ES CORRECTO
+                            if (check) {
+                                //GENERO EL TOKEN
+                                var tokenAuth = await jwt.createToken(existeUsuario)
+                                resolve({
+                                    token: tokenAuth
+                                })
+
+                            } else {
+                                //CONTRASEÑA INCORRECTA
+                                reject("La contraseña ingresada es incorrecta.");
+                            }
+                        })
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+            );
+        }
     }
 }
